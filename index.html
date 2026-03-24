@@ -1,11 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Website</title>
+    <title>Gold Trader Demo</title>
 </head>
 <body>
 
-<h1>🔥 เว็บของฉัน</h1>
+<h1>💰 Gold Trader Demo</h1>
+
+<div id="price">กำลังโหลดราคาทอง...</div>
+
+<button onclick="buy()">🟢 Buy</button>
+<button onclick="sell()">🔴 Sell</button>
+
+<div id="log"></div>
+
+<script>
+// ราคาทองจำลอง
+let goldPrice = 1900;
+let money = 1000;
+let gold = 0;
+
+function updatePrice(){
+    // ราคาทองสุ่ม ±10
+    goldPrice += (Math.random()*20 - 10).toFixed(2)*1;
+    document.getElementById("price").innerText =
+        `💵 เงิน: ${money.toFixed(2)} USD | 🪙 ทอง: ${gold.toFixed(2)} oz | ราคาทอง: ${goldPrice.toFixed(2)} USD/oz`;
+}
+
+// Buy
+function buy(){
+    if(money >= goldPrice){
+        gold += 1;
+        money -= goldPrice;
+        log(`🟢 ซื้อทอง 1 oz`);
+    } else {
+        log("⚪ เงินไม่พอซื้อ");
+    }
+    updatePrice();
+}
+
+// Sell
+function sell(){
+    if(gold >= 1){
+        gold -= 1;
+        money += goldPrice;
+        log(`🔴 ขายทอง 1 oz`);
+    } else {
+        log("⚪ ไม่มีทองขาย");
+    }
+    updatePrice();
+}
+
+// แสดง log
+function log(msg){
+    const div = document.getElementById("log");
+    div.innerHTML += msg + "<br>";
+}
+
+// อัปเดตราคาทองทุก 2 วินาที
+setInterval(updatePrice, 2000);
+updatePrice();
+
+</script>
 
 </body>
 </html>
